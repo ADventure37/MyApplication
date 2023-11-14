@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -40,12 +41,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting( viewModel: MainViewModel) {
 //    var matchs by viewModel.matchs.collectAsState()
-    var matchs : List<Match> = emptyList()
-    print("1")
-    if (matchs.isEmpty()){
-        matchs = viewModel.makeGetRequest()
-    }
-    Text(text = "Test")
+    var matchs : List<Match> = viewModel.makeGetRequest()
+
+    println(matchs.get(0).joueur1.nom)
     LazyColumn{
         items(matchs){
             match ->  Text(text = match.joueur1.nom)

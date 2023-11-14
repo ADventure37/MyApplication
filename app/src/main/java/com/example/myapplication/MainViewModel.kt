@@ -22,7 +22,7 @@ class MainViewModel : ViewModel() {
         .build()
 
     val service = Retrofit.Builder()
-        .baseUrl("http://localhost:3000/").client(okHttpClient)
+        .baseUrl("http://10.0.2.2:3000/").client(okHttpClient)
         .addConverterFactory(MoshiConverterFactory.create()).build().create(ProjetAPI::class.java)
 
     fun getAllMatch(){
@@ -36,23 +36,27 @@ class MainViewModel : ViewModel() {
         var matchs : List<Match> = emptyList()
 
         val request = Request.Builder()
-            .url("http://localhost:3000/parties") // Remplacez l'URL par celle de votre API
+            .url("http://10.0.2.2:3000/parties") // Remplacez l'URL par celle de votre API
             .build()
-
+        println("1")
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 // Gérer les erreurs de requête ici
                 e.printStackTrace()
+                println("2.1")
             }
 
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
+                    println("2.2")
                     val responseData = response.body?.string()
                     // Traiter les données reçues ici
                     val matchListType = object : TypeToken<List<Match>>(){}.type
                     matchs = Gson().fromJson(responseData, matchListType)
                 } else {
                     // Gérer les erreurs de réponse ici
+                    println("2.3")
+
                 }
             }
         })
