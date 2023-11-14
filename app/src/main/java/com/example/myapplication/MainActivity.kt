@@ -39,9 +39,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting( viewModel: MainViewModel) {
-    val matchs by viewModel.matchs.collectAsState()
+//    var matchs by viewModel.matchs.collectAsState()
+    var matchs : List<Match> = emptyList()
     print("1")
-    if (matchs.isEmpty())viewModel.getAllMatch()
+    if (matchs.isEmpty()){
+        matchs = viewModel.makeGetRequest()
+    }
     Text(text = "Test")
     LazyColumn{
         items(matchs){
